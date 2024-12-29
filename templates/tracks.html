@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Tracks</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Track Name</th>
+            <th>Artists</th>
+            <th>Album</th>
+            <th>Listen</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for track in tracks %}
+        <tr>
+            <td>{{ track.track_name }}</td>
+            <td>{{ track.artists }}</td>
+            <td>{{ track.album_name }}</td>
+            <td><a href="{{ url_for('listen', track_id=track.track_id) }}">Listen</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

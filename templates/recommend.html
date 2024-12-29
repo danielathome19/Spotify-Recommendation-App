@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Recommended Tracks</h2>
+<ul>
+    {% for track in recommended_tracks %}
+    <li>{{ track }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}

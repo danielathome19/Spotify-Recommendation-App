@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Welcome to My Spotify Demo</h1>
+<p>
+    <a href="{{ url_for('register') }}">Register</a> or 
+    <a href="{{ url_for('login') }}">Login</a> to get started.
+</p>
+{% endblock %}
