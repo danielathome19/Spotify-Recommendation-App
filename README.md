@@ -1,2 +1,1 @@
-# Spotify-Recommendation-App
-A repository for a Spotify-like music recommendation app
+This repository is empty. Any task executed on it should be considered a new capability and needs to be created.
