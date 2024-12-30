@@ -2,7 +2,8 @@
 
 {% block content %}
 <h2>Tracks</h2>
-<table>
+<input type="text" id="search" placeholder="Search for tracks...">
+<table id="tracksTable">
     <thead>
         <tr>
             <th>Track Name</th>
@@ -22,4 +23,21 @@
         {% endfor %}
     </tbody>
 </table>
+
+<script>
+document.getElementById('search').addEventListener('keyup', function() {
+    var searchValue = this.value.toLowerCase();
+    var rows = document.querySelectorAll('#tracksTable tbody tr');
+    rows.forEach(function(row) {
+        var trackName = row.cells[0].textContent.toLowerCase();
+        var artists = row.cells[1].textContent.toLowerCase();
+        var album = row.cells[2].textContent.toLowerCase();
+        if (trackName.includes(searchValue) || artists.includes(searchValue) || album.includes(searchValue)) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+});
+</script>
 {% endblock %}
