@@ -57,8 +57,11 @@ def create_tables(conn):
     conn.commit()
 
 def populate_tracks(conn, csv_path):
-    df = pd.read_csv(csv_path)
+    df = pd.read_csv(csv_path, index_col=0)
+    # Remove rows with duplicate track_id
+    df.drop_duplicates(subset=["track_id"], inplace=True)
     df.to_sql('tracks', conn, if_exists='append', index=False)
+
 
 def main():
     conn = sqlite3.connect('db.sqlite')

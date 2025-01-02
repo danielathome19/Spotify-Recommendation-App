@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 import sqlite3
 import pickle
+import pandas as pd
 from surprise import Dataset, Reader, KNNBasic
 
 app = FastAPI()
@@ -22,18 +23,7 @@ def recommend_for_user(user_id: int, k: int = 5):
     # Load the trained model
     with open('recommendation_model.pkl', 'rb') as f:
         model = pickle.load(f)
-    
-    # Prepare the data for the Surprise library
-    cursor.execute("SELECT * FROM listening_history")
-    all_listening_history = cursor.fetchall()
-    data = [(row['user_id'], row['track_id'], 1) for row in all_listening_history]
-    reader = Reader(rating_scale=(0, 1))
-    dataset = Dataset.load_from_df(pd.DataFrame(data, columns=['user_id', 'track_id', 'rating']), reader)
-    trainset = dataset.build_full_trainset()
-    
-    # Fit the model with the full trainset
-    model.fit(trainset)
-    
+
     # Get the list of all track IDs
     cursor.execute("SELECT track_id FROM tracks")
     all_tracks = cursor.fetchall()
@@ -43,8 +33,10 @@ def recommend_for_user(user_id: int, k: int = 5):
     recommended_tracks = []
     for track_id in all_track_ids:
         if track_id not in [track['track_id'] for track in listening_history]:
-            est = model.predict(user_id, track_id).est
-            recommended_tracks.append((track_id, est))
+            # est = model.predict(user_id, track_id).est  # Est is the estimated rating
+            est = model.predict(str(user_id), track_id).est
+            track_info = cursor.execute("SELECT artists, track_name FROM tracks WHERE track_id = ?", (track_id,)).fetchone()
+            recommended_tracks.append((track_info, est))
     
     # Sort the recommendations by estimated rating
     recommended_tracks.sort(key=lambda x: x[1], reverse=True)

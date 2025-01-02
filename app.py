@@ -45,6 +45,7 @@ def login():
 
         if user and bcrypt.checkpw(password.encode('utf-8'), user['password_hash']):
             session['user_id'] = user['user_id']
+            session['username'] = user['username']  # TODO: keep or remove
             return redirect(url_for('tracks'))
         else:
             return "Invalid credentials"
@@ -59,7 +60,7 @@ def logout():
 def tracks():
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM tracks LIMIT 50")
+    cursor.execute("SELECT * FROM tracks LIMIT 500")  # TODO: paginate
     tracks = cursor.fetchall()
     conn.close()
     return render_template('tracks.html', tracks=tracks)
