@@ -6,18 +6,18 @@
 <table id="tracksTable">
     <thead>
         <tr>
-            <th>Track Name</th>
             <th>Artists</th>
             <th>Album</th>
+            <th>Track Name</th>
             <th>Listen</th>
         </tr>
     </thead>
     <tbody>
         {% for track in tracks %}
         <tr>
-            <td>{{ track.track_name }}</td>
             <td>{{ track.artists }}</td>
             <td>{{ track.album_name }}</td>
+            <td>{{ track.track_name }}</td>
             <td><a href="{{ url_for('listen', track_id=track.track_id) }}">Listen</a></td>
         </tr>
         {% endfor %}
@@ -26,17 +26,15 @@
 
 <script>
 document.getElementById('search').addEventListener('keyup', function() {
-    var searchValue = this.value.toLowerCase();
-    var rows = document.querySelectorAll('#tracksTable tbody tr');
+    let searchValue = this.value.toLowerCase();
+    let rows = document.querySelectorAll('#tracksTable tbody tr');
     rows.forEach(function(row) {
-        var trackName = row.cells[0].textContent.toLowerCase();
-        var artists = row.cells[1].textContent.toLowerCase();
-        var album = row.cells[2].textContent.toLowerCase();
-        if (trackName.includes(searchValue) || artists.includes(searchValue) || album.includes(searchValue)) {
-            row.style.display = '';
-        } else {
-            row.style.display = 'none';
-        }
+        let trackName = row.cells[0].textContent.toLowerCase();
+        let artists = row.cells[1].textContent.toLowerCase();
+        let album = row.cells[2].textContent.toLowerCase();
+        row.style.display = trackName.includes(searchValue) ||
+                            artists.includes(searchValue) ||
+                            album.includes(searchValue) ? '' : 'none';
     });
 });
 </script>

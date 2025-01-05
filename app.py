@@ -1,19 +1,23 @@
-from flask import Flask, render_template, request, redirect, url_for, session
-import sqlite3
 import bcrypt
+import sqlite3
 import requests
+from datetime import datetime
+from flask import Flask, render_template, request, redirect, url_for, session
 
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'
+
 
 def get_db_connection():
     conn = sqlite3.connect('db.sqlite')
     conn.row_factory = sqlite3.Row
     return conn
 
+
 @app.route('/')
 def index():
     return render_template('index.html')
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -30,6 +34,7 @@ def register():
 
         return redirect(url_for('login'))
     return render_template('register.html')
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -51,19 +56,22 @@ def login():
             return "Invalid credentials"
     return render_template('login.html')
 
+
 @app.route('/logout')
 def logout():
     session.pop('user_id', None)
     return redirect(url_for('index'))
 
+
 @app.route('/tracks')
 def tracks():
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM tracks LIMIT 500")  # TODO: paginate
+    cursor.execute("SELECT * FROM tracks LIMIT 500")  # TODO: paginate, add dislike
     tracks = cursor.fetchall()
     conn.close()
     return render_template('tracks.html', tracks=tracks)
+
 
 @app.route('/listen/<track_id>')
 def listen(track_id):
@@ -73,10 +81,11 @@ def listen(track_id):
     user_id = session['user_id']
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO listening_history (user_id, track_id) VALUES (?, ?)", (user_id, track_id))
+    cursor.execute("INSERT INTO listening_history (user_id, track_id, listened_at) VALUES (?, ?, ?)", (user_id, track_id, datetime.now()))
     conn.commit()
     conn.close()
     return redirect(url_for('tracks'))
+
 
 @app.route('/recommend')
 def recommend():
@@ -87,6 +96,7 @@ def recommend():
     response = requests.get(f'http://127.0.0.1:8000/recommend/{user_id}')
     recommended_tracks = response.json().get('recommended_tracks', [])
     return render_template('recommend.html', recommended_tracks=recommended_tracks)
+
 
 if __name__ == "__main__":
     app.run(debug=True)

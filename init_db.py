@@ -24,6 +24,8 @@ def create_tables(conn):
         history_id INTEGER PRIMARY KEY AUTOINCREMENT,
         user_id INTEGER,
         track_id TEXT,
+        rating REAL DEFAULT 1.0,
+        listened_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (user_id) REFERENCES users(user_id)
     )
     """)

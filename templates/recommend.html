@@ -4,7 +4,7 @@
 <h2>Recommended Tracks</h2>
 <ul>
     {% for track in recommended_tracks %}
-    <li>{{ track }}</li>
+    <li>{{ track['artists'] + " - " + track['track_name'] }}</li>
     {% endfor %}
 </ul>
 {% endblock %}
