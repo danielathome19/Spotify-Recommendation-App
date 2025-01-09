@@ -11,6 +11,7 @@ my_spotify_demo/
 ├── db.sqlite
 ├── app.py
 ├── recommend_api.py
+├── train_model.py
 ├── requirements.txt
 └── templates/
     ├── base.html
@@ -26,6 +27,7 @@ my_spotify_demo/
 - **db.sqlite**: The local SQLite database file (generated after initialization).
 - **app.py**: Main Flask application (routes for registration, login, track listing, etc.).
 - **recommend_api.py**: FastAPI microservice for recommendation logic.
+- **train_model.py**: Script to train a recommendation model.
 - **requirements.txt**: List of required dependencies.
 - **templates/**: HTML (Jinja2) templates rendered by Flask routes.
 
