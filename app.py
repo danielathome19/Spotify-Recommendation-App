@@ -73,6 +73,26 @@ def tracks():
     return render_template('tracks.html', tracks=tracks)
 
 
+@app.route('/history')
+def history():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    user_id = session['user_id']
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT listening_history.listened_at, tracks.track_id, tracks.artists, tracks.track_name
+        FROM listening_history
+        JOIN tracks ON listening_history.track_id = tracks.track_id
+        WHERE listening_history.user_id = ?
+        ORDER BY listening_history.listened_at DESC
+    """, (user_id,))
+    history = cursor.fetchall()
+    conn.close()
+    return render_template('history.html', history=history)
+
+
 @app.route('/listen/<track_id>')
 def listen(track_id):
     if 'user_id' not in session:

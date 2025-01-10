@@ -10,12 +10,11 @@
     <nav>
         <ul>
             <li><a href="{{ url_for('index') }}">Home</a></li>
-            <li><a href="{{ url_for('tracks') }}">Tracks</a></li>
-            <li><a href="{{ url_for('recommend') }}">Recommendations</a></li>
-
-            <!-- If user is logged in, show logout link -->
             {% if 'user_id' in session %}
             <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            <li><a href="{{ url_for('history') }}">History</a></li>
+            <li><a href="{{ url_for('tracks') }}">Tracks</a></li>
+            <li><a href="{{ url_for('recommend') }}">Recommendations</a></li>
             {% else %}
             <li><a href="{{ url_for('login') }}">Login</a></li>
             <li><a href="{{ url_for('register') }}">Register</a></li>

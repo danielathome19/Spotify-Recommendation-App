@@ -1,5 +1,7 @@
 /venv/
 /.idea/
+/logs/
 dataset.csv
 db.sqlite
 recommendation_model.pkl
+mpd.slice.*.json

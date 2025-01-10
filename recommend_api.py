@@ -5,7 +5,7 @@ import sqlite3
 import threading
 import subprocess
 from fastapi import FastAPI
-from surprise import KNNBasic
+from surprise import KNNBasic, SVD
 
 app = FastAPI()
 
@@ -43,7 +43,7 @@ def background_scheduler():
     """
     while True:
         # Sleep 1 hour (3600 seconds)
-        time.sleep(60)  # TODO: change back to 3600
+        time.sleep(3600)
 
         # Run the training script (blocking call)
         print("[Scheduler] Starting model retraining...")
@@ -90,6 +90,19 @@ def recommend_for_user(user_id: int, k: int = 5):
             recommendations.append((row['artists'], row['track_name'], est))
 
     # Sort by rating estimate
+    # recommendations.sort(key=lambda x: x[2], reverse=True)
+    # top_k = recommendations[:k]
+
+    # Normalize scores using Z-score normalization
+    if recommendations:
+        scores = [item[2] for item in recommendations]  # Extract the raw scores
+        mean = sum(scores) / len(scores)
+        std = (sum((x - mean) ** 2 for x in scores) / len(scores)) ** 0.5 or 1  # Avoid division by zero
+
+        # Update recommendations with normalized scores
+        recommendations = [(item[0], item[1], (item[2] - mean) / std) for item in recommendations]
+
+    # Sort by normalized score and take the top-k
     recommendations.sort(key=lambda x: x[2], reverse=True)
     top_k = recommendations[:k]
 

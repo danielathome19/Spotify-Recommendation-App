@@ -12,6 +12,7 @@ my_spotify_demo/
 ├── app.py
 ├── recommend_api.py
 ├── train_model.py
+├── populate_users.py
 ├── requirements.txt
 └── templates/
     ├── base.html
@@ -28,6 +29,7 @@ my_spotify_demo/
 - **app.py**: Main Flask application (routes for registration, login, track listing, etc.).
 - **recommend_api.py**: FastAPI microservice for recommendation logic.
 - **train_model.py**: Script to train a recommendation model.
+- **populate_users.py**: Script to populate the `users` and `listening_history` tables with dummy data.
 - **requirements.txt**: List of required dependencies.
 - **templates/**: HTML (Jinja2) templates rendered by Flask routes.
 
@@ -64,13 +66,17 @@ Create three tables:
 
 Run it once to initialize and populate `db.sqlite`.
 
+`populate_users.py` can be used to add dummy users and listening history. 
+Here, we use the first slice of the Million Playlists Dataset (from Spotify) to create new users with realistic listening history to populate the `users` and `listening_history` tables.
+The fake users are created using the `Faker` library.
+
 ## Flask Application (app.py)
 
 **Flask** will handle:
 - User Registration
 - User Login
 - Track Listing
-- “Listening” to tracks (record in `listening_history`)
+- "Listening" to tracks (record in `listening_history`)
 - Invoking the FastAPI endpoint for recommendations
 
 ### Database Connection
@@ -106,7 +112,8 @@ Use **Jinja2** to create:
 - `index.html`: homepage with links to login/register.
 - `register.html`: registration form.
 - `login.html`: login form.
-- `tracks.html`: lists tracks, each has a “Listen” link.
+- `tracks.html`: lists tracks, each has a "Listen" link.
+- `history.html`: displays user listening history.
 - `recommend.html`: displays recommended track IDs from FastAPI.
 
 ## Running the Demo
@@ -127,8 +134,8 @@ Use **Jinja2** to create:
 4. **Test Flow**:
   - Go to `http://127.0.0.1:5000`.
   - Register & Login.
-  - View tracks, click “Listen” to record a play.
-  - Click “Get Recommendations” to call the FastAPI service.
+  - View tracks, click "Listen" to record a play.
+  - Click "Get Recommendations" to call the FastAPI service.
 
 ## Enhancements
 
