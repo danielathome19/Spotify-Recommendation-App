@@ -33,6 +33,11 @@ my_spotify_demo/
 - **requirements.txt**: List of required dependencies.
 - **templates/**: HTML (Jinja2) templates rendered by Flask routes.
 
+### Datasets
+
+1. [Spotify Tracks](https://www.kaggle.com/datasets/maharshipandya/-spotify-tracks-dataset) (for track metadata).
+2. [Spotify Million Playlists](https://www.kaggle.com/datasets/himanshuwagh/spotify-million) (for user playlists/listening history).
+
 ## Environment & Dependencies
 
 1. Create a virtual environment (recommended).
