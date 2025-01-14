@@ -33,7 +33,7 @@ def fit_model(data):
     #     RMSE: Measures the error between predicted ratings and actual ratings.
     #     MAE: Measures the absolute error between predicted ratings and actual ratings.
     
-    metric = 'rmse'
+    metric = 'mae'
     gs = GridSearchCV(SVD, param_grid, measures=[metric], cv=3)
     gs.fit(dataset)
 
