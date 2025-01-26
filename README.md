@@ -28,10 +28,16 @@ my_spotify_demo/
 - **db.sqlite**: The local SQLite database file (generated after initialization).
 - **app.py**: Main Flask application (routes for registration, login, track listing, etc.).
 - **recommend_api.py**: FastAPI microservice for recommendation logic.
-- **train_model.py**: Script to train a recommendation model.
+- **train_model.py**: Script to train a recommendation model (SVD or KNN).
 - **populate_users.py**: Script to populate the `users` and `listening_history` tables with dummy data.
 - **requirements.txt**: List of required dependencies.
 - **templates/**: HTML (Jinja2) templates rendered by Flask routes.
+
+#### Alternatives:
+- **train_model_2.py**: Alternative script to train a different recommendation model (simple TF neural network).
+- **train_model_3.py**: Same as above (TF neural network with metadata embeddings).
+- **recommend_api_2.py**: Alternative FastAPI microservice for a different recommendation logic (model 2).
+- **recommend_api_3.py**: Same as above (model 3).
 
 ### Datasets
 

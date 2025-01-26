@@ -3,5 +3,8 @@
 /logs/
 dataset.csv
 db.sqlite
-recommendation_model.pkl
+*.pkl
+*.h5
 mpd.slice.*.json
+desktop.ini
+NOTES.txt
